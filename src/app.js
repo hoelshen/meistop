@@ -41,7 +41,7 @@ export default {
     window: {
       backgroundTextStyle: "light",
       navigationBarBackgroundColor: "#fffefb",
-      navigationBarTitleText: "美停",
+      navigationBarTitleText: "智联信通",
       navigationBarTextStyle: "black",
       backgroundColor: "#fffefb"
     },

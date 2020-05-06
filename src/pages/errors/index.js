@@ -9,7 +9,7 @@ export default {
     config: {
         navigationBarBackgroundColor: '#fffefb',
         navigationBarTextStyle: 'black',
-        navigationBarTitleText: '美停',
+        navigationBarTitleText: '智联信通',
         backgroundColor: '#FFFEFB',
         disableScroll: false
     }

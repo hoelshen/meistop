@@ -20,7 +20,7 @@
         style="color:white"
         class="title flex center "
       >
-        美停
+        智联信通
       </view>
     </div>
     <div class="my_info flex column">
@@ -253,8 +253,25 @@ export default {
       currentRoute: { query }
     } = this.$router;
     let res = wx.getSystemInfoSync();
+
+    
     const carno = query.carno || "";
     console.log("res: ", res);
+
+    this.$request
+      .put("/orderinfo.html", { carno })
+      .then(res => {
+        if (res && res.result && res.result.items.length == 0) {
+          return;
+        }
+        const length = res.result.items.length - 1;
+        this.car = res.result.items[length];
+        this.orderid = res.result.items[length].id;
+      })
+      .catch(err => {
+        console.log("err: ", err);
+        return;
+      });
     // 导航栏总高度 & 占位块高度
     // {
     //       'iPhone': 64,
@@ -283,25 +300,8 @@ export default {
     // 时间、信号等工具栏的高度
     let toolBar = res.statusBarHeight;
     this.tool_height = res.statusBarHeight;
-    console.log("title_height: ", this.title_height);
-    console.log("toolBar: ", toolBar);
     // 页面title栏的高度
     this.title_height = totalBar * 2 - toolBar;
-
-    this.$request
-      .put("/orderinfo.html", { carno })
-      .then(res => {
-        if (res && res.result && res.result.items.length == 0) {
-          return;
-        }
-        const length = res.result.items.length - 1;
-        this.car = res.result.items[length];
-        this.orderid = res.result.items[length].id;
-      })
-      .catch(err => {
-        console.log("err: ", err);
-        return;
-      });
   }
 };
 </script>

@@ -22,7 +22,7 @@
           style="margin-left: 30rpx;"
           class="flex a-center title"
         >
-          美停
+          智联信通
         </view>
       </div>
       <view class="">

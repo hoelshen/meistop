@@ -29,7 +29,7 @@
             }"
             class="title flex center "
           >
-            美停
+            智联信通
           </view>
         </div>
         <swiper
@@ -185,7 +185,7 @@
             style="color:#ffffff;font-size: 32rpx;"
             class="mail_title flex center"
           >
-            美停
+            智联信通
           </view>
         </div>
         <view class="">
@@ -261,16 +261,12 @@
               class="my_info_user_avatarUrl"
               src="https://cdn.tellers.cn/tell_v2/static/default-avatar_v2.svg"
               mode="scaleToFill"
-              @click="login"
             >
           </button>
           <img
             v-else
             class="my_info_user_avatarUrl"
-            :src="
-              user.aliasPortrait ||
-                'https://cdn.tellers.cn/tell_v2/static/default-avatar_v2.svg'
-            "
+            :src=" user.aliasPortrait || 'https://cdn.tellers.cn/tell_v2/static/default-avatar_v2.svg'"
             mode="scaleToFill"
             @click="login"
           >
@@ -480,14 +476,15 @@ export default {
         query: this.$mp.query
       });
     }
-      wx.myEvent.on("cars", e => {
-        this.cars = e;
-      })
+    wx.myEvent.on("cars", e => {
+      this.cars = e;
+    })
     this.getScroll();
     this.onTabChange(this.tab);
     wx.getSetting({
       success: function(res) {
-        if (res.authSetting["scope.userInfo"]) {
+        console.log('res: ', res.authSetting["scope.userInfo"]); //出现登录弹窗
+        if (res.authSetting && res.authSetting["scope.userInfo"]) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
             success: function(res) {
@@ -495,9 +492,7 @@ export default {
             }
           });
         } else {
-          this.$refs.mymodal.show({
-            age: 1
-          });
+          this.$refs.mymodal.show();
         }
       }.bind(this)
     });
@@ -554,6 +549,9 @@ export default {
     onGotUserInfo(e) {
       this.$request.auth(e.detail);
     },
+    login(){
+
+    },
     async getBanners() {
       const res1 = await this.$request.post("/index.html");
       const res2 = await this.$request.post("/indexitems.html");
@@ -579,7 +577,6 @@ export default {
     hold() {
       this.$router.push({ path: "/pages/bindPhone/index" });
     },
-    login() {},
     keyboardChange(e) {
       this.plateNum = e;
       this.navCar();

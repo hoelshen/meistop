@@ -24,5 +24,8 @@
     "*.vue": "vue",
     "*.wxml": "html",
     "*.wxss": "css"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   }
 }
