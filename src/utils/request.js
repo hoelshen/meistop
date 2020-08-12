@@ -24,12 +24,10 @@ function getBaseURL(env) {
   switch (env) {
     case "local":
       return "http://192.168.118.149:10701";
-    case "mock":
-      return "http://www.amusingcode.com:8001/mock/24/tell_v2";
     case "test":
       return "https://smartcity.iotcomm.com/mobile/";
     default:
-      return "https://api.tellers.cn/teller-v2";
+      return "https://smartcity.iotcomm.com/mobile/";
   }
 }
 

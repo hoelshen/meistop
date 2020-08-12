@@ -29,7 +29,6 @@ export default {
       sessionkey: "",
       openid: "",
       imageUrl: "https://cdn.tellers.cn/tell_v2/static/share_default.jpg", // 默认分享分
-
     };
   }
 };

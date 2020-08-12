@@ -61,6 +61,7 @@ export default {
       }
       let { iv, userInfo, encryptedData } = e.detail;
       const session_key = getApp().globalData.sessionkey;
+      console.log('session_key: ', session_key);
       this.$request
         .post("/user/bind.html", {
           session_key,
