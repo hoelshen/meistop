@@ -9,6 +9,7 @@
           :style="'border-color:'+baseBorder"
           style="background-color: #F5F5F5"
           class="kb-input__li"
+          @click="clickProvin"
         >
           {{ textBaseArr[0] }}
         </div>
@@ -234,6 +235,12 @@ export default {
     },
     closeKeyboard() {
       this.$emit("update:show", false);
+    },
+    clickProvin() {
+      console.log('clickPro: ');
+      this.textArr = '';
+      this.textBaseArr.splice(0, 7, "");
+      this.isAlph = false;
     },
     tapKeyboard(e) {
       this.tapVal = e.currentTarget.dataset.val;

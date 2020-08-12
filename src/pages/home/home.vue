@@ -529,7 +529,8 @@ export default {
     },
     onGotUserInfo(e) {
       console.log('e: ', e);
-      this.$request.login(e.detail);
+      const result = this.$request.login(e.detail);
+      console.log('result: ', result);
     },
     async getBanners() {
       const res1 = await this.$request.post("/index.html");

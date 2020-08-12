@@ -25,7 +25,7 @@ function getBaseURL(env) {
     case "local":
       return "http://192.168.118.149:10701";
     case "test":
-      return "https://mt.xmpush.com/mobile/";
+      return "https://www.meitingpark.com/mobile/";
   }
 }
 
