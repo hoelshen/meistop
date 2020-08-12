@@ -79,6 +79,9 @@ async function getlatitude(){
   const res = await promisify(wx.getLocation, wx)({
     type: 'wgs84',
   });
+  let lat = ''; 
+  let lng = '';
+  let obj = {};
   lat = (res.latitude).toFixed(2).toString() // 纬度
   lng = (res.longitude).toFixed(2).toString() // 经度
   return obj = {
@@ -132,7 +135,18 @@ async function loginFlyFn() {
       lng: obj.lng
     })
     .then(res => {
-      return tokenCode = res.result.tokenCode;
+      fly.config.headers["tokenCode"] = tokenCode = res.result.tokenCode;
+      fly.config.headers["tokenInfo"] = tokenInfo = res.result.tokenInfo;
+
+      wx.setStorage({
+        key: 'tokenCode',
+        data: tokenCode
+      })
+      wx.setStorage({
+        key: 'tokenInfo',
+        data: tokenInfo
+      })
+      return getApp().globalData.user = res.result;
     })
     .catch(err => {
       wx.hideLoading();

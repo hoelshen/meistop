@@ -266,10 +266,7 @@
           <img
             v-else
             class="my_info_user_avatarUrl"
-            :src="
-              user.aliasPortrait ||
-                'https://cdn.tellers.cn/tell_v2/static/default-avatar_v2.svg'
-            "
+            :src="user.aliasPortrait || 'https://cdn.tellers.cn/tell_v2/static/default-avatar_v2.svg'"
             mode="scaleToFill"
           >
           <div class="flex j-start my_info_user_bingPhone">
@@ -284,10 +281,6 @@
             class="my_function_item_button flex column center payAccount"
             @tap="joinGroup"
           >
-            <!-- <image
-              class="iconfont"
-              src="/static/png/moment.png"
-            /> -->
             <div class="paycount">
               0.00
             </div>
@@ -298,10 +291,6 @@
             class="my_function_item_button flex column center"
             @click="ticket"
           >
-            <!-- <image
-              class="iconfont"
-              src="/static/png/ticket.png"
-            /> -->
             <div class="paycount">
               0
             </div>
@@ -312,10 +301,6 @@
             class="my_function_item_button flex column center"
             @click="ticket"
           >
-            <!-- <image
-              class="iconfont"
-              src="/static/png/badge.png"
-            /> -->
             <div class="paycount">
               0.00
             </div>
@@ -478,14 +463,15 @@ export default {
         query: this.$mp.query
       });
     }
-      wx.myEvent.on("cars", e => {
-        this.cars = e;
-      })
+    wx.myEvent.on("cars", e => {
+      this.cars = e;
+    })
     this.getScroll();
     this.onTabChange(this.tab);
     wx.getSetting({
       success: function(res) {
-        if (res.authSetting["scope.userInfo"]) {
+        console.log('res: ', res.authSetting["scope.userInfo"]); //出现登录弹窗
+        if (res.authSetting && res.authSetting["scope.userInfo"]) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
             success: function(res) {
@@ -493,9 +479,7 @@ export default {
             }
           });
         } else {
-          this.$refs.mymodal.show({
-            age: 1
-          });
+          this.$refs.mymodal.show();
         }
       }.bind(this)
     });
@@ -514,17 +498,11 @@ export default {
           if (res) {
             this.user.aliasPortrait = res.portrait;
             this.user.phoneNumber = res.mobile;
+            console.log('this.user', this.user.aliasPortrait, this.user.phoneNumber)
           }
         });
       }
       let res = wx.getSystemInfoSync();
-      // 导航栏总高度 & 占位块高度
-      // {
-      //       'iPhone': 64,
-      //       'iPhoneX': 88,
-      //       'Android': 68,
-      //       'samsung': 72
-      // }
       let isiOS = res.system.indexOf("iOS") > -1;
       let totalBar;
       if (!isiOS) {
@@ -550,6 +528,7 @@ export default {
       this.title_height = totalBar * 2 - toolBar;
     },
     onGotUserInfo(e) {
+      console.log('e: ', e);
       this.$request.login(e.detail);
     },
     async getBanners() {
@@ -561,9 +540,6 @@ export default {
       if (res2 && res2.result) {
         this.cars = res2.result.items;
       }
-      // myEvent.on("cars", e => {
-      //   this.cars = e;
-      // });
     },
     toShare() {
       this.$router.push({ path: "/pages/share/share" });
