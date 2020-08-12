@@ -24,12 +24,8 @@ function getBaseURL(env) {
   switch (env) {
     case "local":
       return "http://192.168.118.149:10701";
-    case "mock":
-      return "http://www.amusingcode.com:8001/mock/24/tell_v2";
     case "test":
       return "https://mt.xmpush.com/mobile/";
-    default:
-      return "https://api.tellers.cn/teller-v2";
   }
 }
 
@@ -97,6 +93,7 @@ async function login(data) {
   let portrait = data.userInfo.avatarUrl
   let nickname = data.userInfo.nickName
   const obj = await getlatitude();
+  console.log('obj: ', obj);
   fly.post("/user/login.html", {
       openid,
       portrait,
@@ -175,6 +172,7 @@ fly.interceptors.response.use(
     return response.data;
   },
   async err => {
+    console.log('err: ', err);
     if (err.status == 502 || err.status == 404) {
       // 生产环境：服务器正在重启
 

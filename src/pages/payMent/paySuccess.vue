@@ -39,7 +39,7 @@
         >
         <span class="paySuceess">缴费成功</span>
         <!-- <div>温馨提示： 请在{{}} 前驶离停车场，超时将产生新的费用</div> -->
-      </div>  
+      </div>
       <div
         v-if="car"
         class="flex card column"
@@ -76,7 +76,7 @@
         <div class="block_div flex  center ">
           <span class=" left grow">停车时长</span>
           <span class="right">{{ formatTimer || "暂无" }}</span>
-        </div>        
+        </div>
       </div>
       <div
         v-else
@@ -201,8 +201,8 @@ export default {
     paySubmit(e) {
       this.formid = e.detail.formId;
     },
-    onReturn(){
-            wx.reLaunch({
+    onReturn() {
+      wx.reLaunch({
         url: "/pages/home/index"
       });
     }
@@ -276,12 +276,12 @@ export default {
   background-color: #ffffff;
   box-shadow: 0 0 40rpx 0 rgba(0, 0, 0, 0.05);
   & .avatarUrl {
-      display: block;
-      border-radius: 50%;
-      height: 150rpx;
-      width: 150rpx;
-      margin: 60rpx auto 44rpx;
-    }
+    display: block;
+    border-radius: 50%;
+    height: 150rpx;
+    width: 150rpx;
+    margin: 60rpx auto 44rpx;
+  }
 }
 .carPhone {
   margin-left: 20rpx;
@@ -294,18 +294,17 @@ export default {
     .formatTimer {
       font-size: 64rpx;
     }
-    .carStatus{
+    .carStatus {
       color: #01bf99;
       font-size: 32rpx;
-      
     }
   }
 }
 
-.info{
-  & .paySuceess{
+.info {
+  & .paySuceess {
     font-size: 32rpx;
-    color: #04bb05
+    color: #04bb05;
   }
 }
 
@@ -362,7 +361,7 @@ export default {
   width: 100%;
   height: 320rpx;
 }
-.payDiv{
+.payDiv {
   border-bottom-color: #e5e5e5;
   border-bottom-style: solid;
   border-bottom-width: 2rpx;
@@ -374,40 +373,34 @@ export default {
     color: white;
     font-size: 32rpx;
     margin: 0 30rpx 0 54rpx;
-
   }
-  & .payCount{
+  & .payCount {
     font-size: 32rpx;
     margin-left: 30rpx;
-
-    color: #3333333
   }
-  & .left{
+  & .left {
     margin-left: 30rpx;
     color: #99999999;
     font-size: 24rpx;
   }
-  & .right{
+  & .right {
     margin-right: 30rpx;
-    font-size:32rpx;
+    font-size: 32rpx;
     color: #99999999;
-
   }
-    
-  & .money{
+
+  & .money {
     font-size: 48rpx;
-    color:#ff243e;
-    & .rmb{
+    color: #ff243e;
+    & .rmb {
       font-size: 32rpx;
       margin-right: 5rpx;
     }
   }
 }
-.submit{
+.submit {
   background-color: #01bf99;
   color: white;
   height: 40px;
 }
 </style>
-
-

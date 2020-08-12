@@ -261,7 +261,6 @@
               class="my_info_user_avatarUrl"
               src="https://cdn.tellers.cn/tell_v2/static/default-avatar_v2.svg"
               mode="scaleToFill"
-              @click="login"
             >
           </button>
           <img
@@ -272,7 +271,6 @@
                 'https://cdn.tellers.cn/tell_v2/static/default-avatar_v2.svg'
             "
             mode="scaleToFill"
-            @click="login"
           >
           <div class="flex j-start my_info_user_bingPhone">
             <span @click="hold">
@@ -552,7 +550,7 @@ export default {
       this.title_height = totalBar * 2 - toolBar;
     },
     onGotUserInfo(e) {
-      this.$request.auth(e.detail);
+      this.$request.login(e.detail);
     },
     async getBanners() {
       const res1 = await this.$request.post("/index.html");
@@ -579,7 +577,6 @@ export default {
     hold() {
       this.$router.push({ path: "/pages/bindPhone/index" });
     },
-    login() {},
     keyboardChange(e) {
       this.plateNum = e;
       this.navCar();
