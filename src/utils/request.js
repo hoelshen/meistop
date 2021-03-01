@@ -49,7 +49,7 @@ function uploadFile(path) {
       filePath: path,
       name: "img",
       header: {
-        "x-csrf-token": token
+        // "x-csrf-token": token
       },
       success: function (res) {
         typeof resolve == "function" && resolve(res);

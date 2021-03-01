@@ -67,7 +67,7 @@
 
           <button
             class="my_function_item_button flex column center"
-            @click="ticket"
+            @click="to_car_info"
           >
             <image
               class="iconfontBig"
@@ -336,7 +336,7 @@
 
           <button
             class="my_contact_item_button flex wrap center grow"
-            @click="joinGroup"
+            @click="to_car_info"
           >
             <image
               class="iconfont"
@@ -487,6 +487,7 @@ export default {
 
   methods: {
     onTabChange(tab = "home") {
+      console.log('test')
       this.tab = tab;
       if (this.tab === "home") {
         this.getBanners();
@@ -541,6 +542,9 @@ export default {
       if (res2 && res2.result) {
         this.cars = res2.result.items;
       }
+    },
+    to_car_info(){
+      this.$router.push({ path: "/pages/car_info/car_info"})
     },
     toShare() {
       this.$router.push({ path: "/pages/share/share" });

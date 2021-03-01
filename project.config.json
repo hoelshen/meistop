@@ -1,115 +1,156 @@
 {
-	"description": "项目配置文件。",
-	"setting": {
-		"urlCheck": false,
-		"es6": false,
-		"postcss": true,
-		"minified": false,
-		"newFeature": true,
-		"coverView": true,
-		"nodeModules": false,
-		"autoAudits": false,
-		"uglifyFileName": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		}
-	},
-	"miniprogramRoot": "dist-wechat/",
-	"compileType": "miniprogram",
-	"appid": "wx70677f7a3878565b",
-	"projectname": "Meistop2.0_megalo",
-	"libVersion": "2.5.2",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"currentL": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": 8,
-			"list": [
-				{
-					"id": -1,
-					"name": "错误页面",
-					"pathName": "pages/errors/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 3,
-					"name": "个人中心页面",
-					"pathName": "pages/home/index",
-					"query": "tab=mine",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "增加车辆",
-					"pathName": "pages/addCar/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "首页",
-					"pathName": "pages/home/index",
-					"query": "tab=home",
-					"scene": null
-				},
-				{
-					"id": 4,
-					"name": "查询缴费",
-					"pathName": "pages/home/index",
-					"query": "tab=mail",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "车辆管理",
-					"pathName": "pages/carManage/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 6,
-					"name": "停车缴费",
-					"pathName": "pages/payMent/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "绑定手机",
-					"pathName": "pages/bindPhone/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "缴费完成",
-					"pathName": "pages/payMent/paySuccess",
-					"query": "",
-					"scene": null
-				}
-			]
-		}
-	}
+  "description": "项目配置文件。",
+  "setting": {
+    "urlCheck": false,
+    "es6": false,
+    "enhance": false,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": false,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "enableEngineNative": false,
+    "bundle": false,
+    "useIsolateContext": true,
+    "useCompilerModule": true,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true
+  },
+  "miniprogramRoot": "dist-wechat/",
+  "compileType": "miniprogram",
+  "appid": "wx70677f7a3878565b",
+  "projectname": "Meistop2.0_megalo",
+  "libVersion": "2.5.2",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "search": {
+      "list": []
+    },
+    "conversation": {
+      "list": []
+    },
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "currentL": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "id": -1,
+          "name": "错误页面",
+          "pathName": "pages/errors/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 3,
+          "name": "个人中心页面",
+          "pathName": "pages/home/index",
+          "query": "tab=mine",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "增加车辆",
+          "pathName": "pages/addCar/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "首页",
+          "pathName": "pages/home/index",
+          "query": "tab=home",
+          "scene": null
+        },
+        {
+          "id": 4,
+          "name": "查询缴费",
+          "pathName": "pages/home/index",
+          "query": "tab=mail",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "车辆管理",
+          "pathName": "pages/carManage/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 6,
+          "name": "停车缴费",
+          "pathName": "pages/payMent/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "绑定手机",
+          "pathName": "pages/bindPhone/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "缴费完成",
+          "pathName": "pages/payMent/paySuccess",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "停车记录",
+          "pathName": "pages/car_info/car_info",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "驾车导航",
+          "pathName": "pages/navigation/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "我的车位信息",
+          "pathName": "pages/car_info/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "路线规划",
+          "pathName": "pages/plan_position/index",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

@@ -31,7 +31,12 @@ export default {
       "pages/errors/index", //错误页面,
       "pages/bindPhone/index", // 绑定手机 
       "pages/bindPhone/detail", // 绑定手机 
-      "pages/payMent/paySuccess" //支付完成
+      "pages/payMent/paySuccess", //支付完成
+      "pages/car_info/index", //  创建我的车位信息
+      "pages/car_info/car_info", //  停车记录
+      "pages/car_info/map", //  地图
+      "pages/plan_position/index", // 路线规划
+      "pages/navigation/index" // 驾车导航
     ],
     "permission": {
       "scope.userLocation": {
