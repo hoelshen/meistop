@@ -1,46 +1,50 @@
 <template>
-  <div>
-    <div class="appDiv flex column">
-      <div class="flex column j-between">
-
-      </div>
-      <div class="flex column textAdd center">
-        <button
-          class="lightButton flex center"
-          @click="hold"
-        >
-          继续
-        </button>
-      </div>
-    </div>
-  </div>
+  <div class="appDiv flex column" />
 </template>
 <script>
 import shareMix from "@/mixins/mixin";
 import { promisify } from "@/utils/index";
-
 export default {
   mixins: [shareMix],
   data() {
     return {
       autoPhone: true,
       focusInput: true,
-      form: {
-        code: "", // 临时授权码
-        encryptedData: "", // 加密数据
-        iv: "", // 初始向量
-        phoneNumber: "", //手机号，
-      },
+      longitude: "",
+      latitude: "",
+      polyline: '',
       code: "",
-      user: {}
+      user: {},
+      cars: [],
+      form: {
+        destination: '',
+        location: ''
+      },
+      routeInfo: ''
     };
   },
-  methods: {
-
-  },
+  methods: {},
   onShow() {
     const { user } = getApp().globalData;
     this.user = user;
+    let _this = this;
+        const {
+      currentRoute: { query }
+    } = this.$router;
+    const lng = query.lng || "";
+    const lat = query.lat || "";
+    const addr = query.addr || "";
+    this.form.destinationName = addr;
+    this.form.destination = (lat, lng);
+    console.log("res: ", lng, lat);
+  },
+  methods:{
+    bindLocation(e){
+      console.log('e', e.detail.value)
+    },
+    bindDestination(e){
+      console.log('e', e.detail.value)
+    }
   }
 };
 </script>

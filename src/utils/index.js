@@ -34,7 +34,18 @@ export function compareVersion(v1, v2) {
 
   return 0
 }
+
+export function mileToKile(value) {
+    let distance = value || 0;
+    if(distance < 1000){
+        return `${distance} 米`;
+
+    } else if(distance > 1000){
+        return `${(Math.round(distance/100)/10).toFixed(1)} 公里`;
+    }
+}
 export default {
   promisify,
-  compareVersion
+  compareVersion,
+  mileToKile
 }

@@ -68,6 +68,7 @@ export default {
         that.cars = res.result.items;
       }
     });
+    console.log(1, user)
     console.log("this.car", that.cars);
   },
   methods: {

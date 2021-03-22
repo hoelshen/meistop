@@ -59,7 +59,7 @@ export default {
         this.focusInput = true;
         return;
       }
-      let { iv, userInfo, encryptedData } = e.detail;
+      let { iv, encryptedData } = e.detail;
       const session_key = getApp().globalData.sessionkey;
       this.$request
         .post("/user/bind.html", {

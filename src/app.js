@@ -5,6 +5,8 @@ import filters from "./utils/filters";
 import megaloRouter from "megalo-router";
 import request from "./utils/request";
 import day from "./utils/day";
+// 引入SDK核心类，js文件根据自己业务，位置可自行放置
+import  QQMapWX from './qqmap-wx-jssdk1.2/qqmap-wx-jssdk.js';
 
 Vue.use(VHtmlPlugin);
 Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
@@ -15,6 +17,10 @@ Vue.use(megaloRouter, {
 
 Vue.prototype.$request = request;
 Vue.prototype.$day = day;
+const qqmapsdk = new QQMapWX({
+    key: 'I63BZ-X27CJ-E3QF4-K2G4Y-T7FGF-E3FDU'
+});
+Vue.prototype.$qqmapsdk = qqmapsdk;
 
 const app = new Vue(App);
 app.$mount();
@@ -53,6 +59,12 @@ export default {
     navigateToMiniProgramAppIdList: [
       "wx70677f7a3878565b",  //签约小程序
       "wx70677f7a3878565b"   //微信代付 用户还款小程序 商户号
-    ]
+    ],
+    plugins: {
+        routePlan: {
+          version: "1.0.12",
+          provider: "wx50b5593e81dd937a"
+        }
+    }
   }
 };

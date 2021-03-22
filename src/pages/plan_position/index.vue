@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="appDiv flex column">
-      <div class="flex column j-between">
-
-      </div>
+      <div class="flex column j-between" />
       <div class="flex column textAdd center">
         <button
           class="lightButton flex center"
@@ -20,7 +18,7 @@ import shareMix from "@/mixins/mixin";
 import { promisify } from "@/utils/index";
 
 export default {
-  name: "路线规划",
+  name: "",
   mixins: [shareMix],
   data() {
     return {

@@ -9,6 +9,9 @@ export default {
     navigationBarBackgroundColor: '#fbfbfd',
     navigationBarTextStyle: 'black',
     navigationBarTitleText: '驾车导航',
-    backgroundColor: '#fbfbfd'  
+    backgroundColor: '#fbfbfd',
+    usingComponents: {
+        "map-route": "plugin://routePlan/index"
+    } 
   }
 };
