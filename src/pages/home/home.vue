@@ -454,7 +454,14 @@ export default {
       title_height: "",
       statusbarHeight: "",
       tool_height: "",
-      markers: []
+      markers: [{
+      iconPath: "/src/static/png/location.jpg",
+      id: 0,
+      latitude: 23.099994,
+      longitude: 113.324520,
+      width: 50,
+      height: 50
+    }],
     };
   },
   onLoad(opt) {
@@ -477,7 +484,6 @@ export default {
     this.onTabChange(this.tab);
     wx.getSetting({
       success: function(res) {
-        console.log("res: ", res.authSetting["scope.userInfo"]); //出现登录弹窗
         if (res.authSetting && res.authSetting["scope.userInfo"]) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称
           wx.getUserInfo({
@@ -494,7 +500,6 @@ export default {
 
   methods: {
     onTabChange(tab = "home") {
-      console.log("test");
       this.tab = tab;
       if (this.tab === "home") {
         this.getBanners();
@@ -543,6 +548,31 @@ export default {
     },
     markertap(){
       console.log(1)
+
+
+
+    },
+    createMarker: function (dataList) {
+      console.log('xxx', dataList)
+      var that = this;
+      var currentMarker = [];
+      var markerList = dataList;
+      for (var key in markerList) {
+        var marker = markerList[key];
+        marker.id = marker.pid;
+        marker.latitude = marker.lat;
+        marker.longitude = marker.lng;
+        marker.width = 40;
+        marker.height = 40;
+        if (marker.pic) {
+          marker.iconPath = marker.pic;
+        } else {
+          marker.iconPath = '../../static/png/location.jpg"';
+        }
+      }
+      currentMarker = currentMarker.concat(markerList);
+      console.log(currentMarker);
+      that.markers =  currentMarker
     },
     onGotUserInfo(e) {
       const result = this.$request.login(e.detail);
@@ -575,6 +605,7 @@ export default {
             .then((res) => {
               console.log("resxxxx", res.result.items);
               const arr = res.result.items;
+              _this.createMarker(arr);
               arr.map(item =>{
                 const distance = mileToKile(item.distance)
                 item.distance = distance

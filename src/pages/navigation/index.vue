@@ -34,8 +34,11 @@ export default {
     const lng = query.lng || "";
     const lat = query.lat || "";
     const addr = query.addr || "";
+    const name = query.name || "";
     this.form.destinationName = addr;
     this.form.destination = (lat, lng);
+    this.form.name = name;
+    this.form.addr = addr;
     console.log("res: ", lng, lat);
   },
   methods:{
