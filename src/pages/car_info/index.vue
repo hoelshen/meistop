@@ -167,18 +167,23 @@ export default {
   onShareAppMessage: function (res) {
     this.addCar();
     const { name, floor, pno, addr, lat, lng } = this.form;
+    let Point = JSON.stringify({  //终点
+        'name': addr,
+        'latitude': lat,
+        'longitude': lng,
+    });
     return {
       title: `${name}-${floor}-${pno}-${addr}`,
-      path: '/pages/navigation/index?form=' + form,
+      path: '/pages/navigation/index?form=' + Point,
       imageUrl: this.form.picPng,  //用户分享出去的自定义图片大小为5:4,
       success: function (res) {
         console.log('res', res)
-	   // 转发成功
-	        wx.showToast({
-	          title: "分享成功",
-	          icon: 'success',
-	          duration: 2000
-	        })
+	      // 转发成功
+        wx.showToast({
+          title: "分享成功",
+          icon: 'success',
+          duration: 2000
+        })
         wx.reLaunch({
           url: "/pages/home/index"
         });

@@ -56,7 +56,6 @@
               v-for="item in cars"
               :key="item"
               class="flex carItem"
-              @click="toPayMent(item)"
             >
               <div
                 class="flex carPhone"
