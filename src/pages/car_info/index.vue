@@ -17,7 +17,6 @@
           <input
             class="input grow"
             maxlength="11"
-            :focus="focusInput"
             :value="form.floor"
             @input="bindFloor"
           >
@@ -27,7 +26,6 @@
           <input
             class="input grow"
             maxlength="11"
-            :focus="focusInput"
             :value="form.pno"
             @input="bindPno"
           >
@@ -37,7 +35,6 @@
           <input
             class="input grow"
             maxlength="11"
-            :focus="focusInput"
             :value="form.addr"
             @input="bindAddr"
           >
@@ -72,7 +69,6 @@
 </template>
 <script>
 import shareMix from "@/mixins/mixin";
-import { promisify } from "@/utils/index";
 
 export default {
   mixins: [shareMix],
@@ -160,7 +156,6 @@ export default {
       type: "gcj02",
       altitude: true, //高精度定位
       success: function(res) {
-        console.log("resresres", res);
         // 设置坐标
         _this.form.lng = res.longitude.toFixed(2);
         _this.form.lat = res.latitude.toFixed(2);
@@ -171,9 +166,7 @@ export default {
   },
   onShareAppMessage: function (res) {
     this.addCar();
-    let form = res.target.dataset.info;
-    const { name, floor, pno, addr } = form;
-    console.log('form', form);
+    const { name, floor, pno, addr, lat, lng } = this.form;
     return {
       title: `${name}-${floor}-${pno}-${addr}`,
       path: '/pages/navigation/index?form=' + form,

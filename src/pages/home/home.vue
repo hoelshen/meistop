@@ -41,11 +41,12 @@
             :controls="controls"
             :markers="markers"
             :polyline="polyline"
+            :include-points="markers"
             show-location
             style="width: 100%; height: 300px;"
             @controltap="bindcontroltap"
             @markertap="markertap"
-            @bindregionchange="regionchange"
+            @regionchange="regionchange"
           />
           <div
             v-if="cars.length >= 1"
@@ -54,22 +55,21 @@
             <div
               v-for="item in cars"
               :key="item"
-              class="flex carItem j-between"
+              class="flex carItem"
               @click="toPayMent(item)"
             >
               <div
                 class="flex carPhone"
-                style="align-items: flex-end;justify-content: center;"
+                style="align-items: flex-end; justify-content: center; width:100%"
               >
                 <div class="position_info flex column position_left">
                   <div class="top">
                     {{ item.name }}
                   </div>
                   <div class="center flex">
-                    <div style="width:20%">
+                    <div style="width:30%">
                       {{ item.distance }}|
                     </div>
-               
                     <div class="positon">
                       {{ item.addr }}
                     </div>
@@ -78,12 +78,19 @@
                     <div>车位余{{ item.availablecount }} / {{ item.placecounts }}</div>
                   </div>
                 </div>
-                <div
-                  class="carPhone_carno position_right"
+                <button
+                  class="carPhone_carno flex column center j-between position_right"
                   @click="goToNavigation(item)"
                 >
-                  <span>导航</span>  
-                </div>
+                  <img
+                    class="iconfont"
+                    src="/static/png/direction.png"
+                    alt=""
+                  >
+                  <span 
+                    class="my_function_item_text " 
+                    style="line-height: 64rpx;">导航</span>
+                </button>
               </div>
             </div>
           </div>
@@ -444,6 +451,8 @@ export default {
         purePhoneNumber: "", //没有区号的手机号
         countryCode: "", //区号,
       },
+      latitude: 24.475164,
+      longitude: 118.12945,
       scrolHeight: 541,
       toPage: null,
       page: 1,
@@ -457,8 +466,8 @@ export default {
       markers: [{
       iconPath: "/src/static/png/location.jpg",
       id: 0,
-      latitude: 23.099994,
-      longitude: 113.324520,
+      latitude: '24',
+      longitude: '118',
       width: 50,
       height: 50
     }],
@@ -546,9 +555,10 @@ export default {
       // 页面title栏的高度
       this.title_height = totalBar * 2 - toolBar;
     },
-    markertap(){
-      console.log(1)
-
+    markertap(e){
+      const that = this;
+      console.log('e',e)
+      const placeId = e.markerId
 
 
     },
@@ -567,12 +577,14 @@ export default {
         if (marker.pic) {
           marker.iconPath = marker.pic;
         } else {
-          marker.iconPath = '../../static/png/location.jpg"';
+          marker.iconPath = '../../static/png/location.png';
         }
       }
       currentMarker = currentMarker.concat(markerList);
-      console.log(currentMarker);
+      console.log('currentMarker', currentMarker);
       that.markers =  currentMarker
+      console.log('this.', that.markers)
+
     },
     onGotUserInfo(e) {
       const result = this.$request.login(e.detail);
@@ -590,11 +602,9 @@ export default {
         type: "gcj02",
         altitude: true, //高精度定位
         success: function(res) {
-          console.log("resresres", res);
           // 设置坐标
           _this.longitude = res.longitude.toFixed(2);
           _this.latitude = res.latitude.toFixed(2);
-
           _this.$request
             .post("/pinfo/list.html", {
               lat: _this.latitude,
@@ -603,13 +613,11 @@ export default {
               pageSize: "10",
             })
             .then((res) => {
-              console.log("resxxxx", res.result.items);
               const arr = res.result.items;
               _this.createMarker(arr);
               arr.map(item =>{
-                const distance = mileToKile(item.distance)
+                const distance = mileToKile(item.distance);
                 item.distance = distance
-                _this.markers = [].push(item.pic)
                 return item.distance
               })
               return _this.cars = arr
@@ -625,17 +633,17 @@ export default {
       }
     },
     goToNavigation(item){
-      // this.$router.push({query: { lat: item.lat, lng: item.lng }, path: "/pages/navigation/index" });
       let key = 'I63BZ-X27CJ-E3QF4-K2G4Y-T7FGF-E3FDU';  //使用在腾讯位置服务申请的key
       let referer = '美停AI';   //调用插件的app的名称
+      let navigation = 1;
       let endPoint = JSON.stringify({  //终点
           'name': item.addr,
           'latitude': item.lat,
-          'longitude': item.lng
+          'longitude': item.lng,
       });
-      // console.log('xxx', key, referer, endPoint )
+      console.log('xxx', key, referer, endPoint, navigation )
       wx.navigateTo({
-          url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint
+          url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint + '&navigation=' + navigation
       });
     },
     to_car_info() {

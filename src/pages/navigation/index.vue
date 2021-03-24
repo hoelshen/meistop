@@ -40,6 +40,20 @@ export default {
     this.form.name = name;
     this.form.addr = addr;
     console.log("res: ", lng, lat);
+
+    let key = 'I63BZ-X27CJ-E3QF4-K2G4Y-T7FGF-E3FDU';  //使用在腾讯位置服务申请的key
+    let referer = '美停AI';   //调用插件的app的名称
+    let navigation = 1;
+    let endPoint = JSON.stringify({  //终点
+        'name': item.addr,
+        'latitude': item.lat,
+        'longitude': item.lng,
+    });
+    console.log('xxx', key, referer, endPoint, navigation )
+    wx.navigateTo({
+        url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint + '&navigation=' + navigation
+    });
+
   },
   methods:{
     bindLocation(e){
