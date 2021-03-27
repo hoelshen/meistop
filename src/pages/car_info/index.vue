@@ -32,12 +32,13 @@
         </div>
         <div class="flex center">
           <span class="textNameSpan">地址定位</span>
-          <input
+          <div
             class="input grow"
             maxlength="11"
-            :value="form.addr"
-            @input="bindAddr"
+            @click="bindAddr"
           >
+            {{ form.addr }}
+          </div>
         </div>
         <div class="flex flex-start">
           <span class="textNameSpan">入口照片</span>
@@ -82,7 +83,7 @@ export default {
         pno: '',
         pic: '',
         picPng: '',
-        addr: '',
+        addr: '测试',
         lat: '', 
         lng: ''
       },
@@ -101,7 +102,10 @@ export default {
         this.form.pno = e.detail.value;
     },
     bindAddr(e){
-        this.form.addr = e.detail.value;
+      console.log('e', e)
+      this.$router.push({
+        path: "/pages/car_info/map"
+      })
     },
     upFile(){
       let sourceType = ['album', 'camera'];
@@ -151,18 +155,34 @@ export default {
   onShow() {
     const { user } = getApp().globalData;
     this.user = user;
+    let address = '';
     const _this = this;
     wx.getLocation({
       type: "gcj02",
       altitude: true, //高精度定位
       success: function(res) {
         // 设置坐标
+        console.log('res', res);
         _this.form.lng = res.longitude.toFixed(2);
         _this.form.lat = res.latitude.toFixed(2);
       },
       fail: function(err) {},
     });
-
+    this.$qqmapsdk.reverseGeocoder({
+      success: function (res) {
+        console.log('res', res)
+        address = res.result.address
+        _this.form.addr = app.globalData.positionAddress || address;
+      },
+      fail: function (res) {
+        //console.log(res);
+      },
+      complete: function (res) {
+        //console.log(res);
+      }
+    });
+    const app = getApp();
+    console.log('const app = getApp()', app.globalData)
   },
   onShareAppMessage: function (res) {
     this.addCar();

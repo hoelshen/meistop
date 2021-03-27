@@ -88,7 +88,8 @@
                   >
                   <span 
                     class="my_function_item_text " 
-                    style="line-height: 64rpx;">导航</span>
+                    style="line-height: 64rpx;"
+                  >导航</span>
                 </button>
               </div>
             </div>
@@ -463,7 +464,7 @@ export default {
       statusbarHeight: "",
       tool_height: "",
       markers: [{
-      iconPath: "/src/static/png/location.jpg",
+      iconPath: "",
       id: 0,
       latitude: '24',
       longitude: '118',

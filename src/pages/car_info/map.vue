@@ -2,15 +2,26 @@
   <div class="faq flex column">
     <map
       id="map"
-      :longitude="log"
+      :longitude="lng"
       :latitude="lat"
       scale="14"
       :markers="markers"
+      :enable-scroll="true"
+      :circles="circles"
       show-location
       :include-points="markers"
       style="width: 100%; height: 100vh;"
+      @controltap="controltap"
       @markertap="markertap"
-    />
+      @regionChange="regionChange"
+      @end="regionChangeend" @start="regionChangestart"
+    >
+      <cover-image
+        class="cover-image"
+        src="/static/png/location.jpg"
+        @bindtap="my_location"
+      />
+    </map>
   </div>
 </template>
 
@@ -22,46 +33,93 @@ export default {
     return {
       userInfo: "",
       cars: [],
+      lng: '',
+      lat: '',
+      markers: [],
+      circles:[]
     };
   },
   onShow() {
     const { user } = getApp().globalData;
     var that = this;
-    this.$request.post("/orderinfo.html").then((res) => {
-      if (res && res.result) {
-        that.cars = res.result.items;
+    wx.getLocation({
+      type: "gcj02",
+      altitude: true, //高精度定位
+      success: function(res) {
+        // 设置坐标
+        that.lng = res.longitude.toFixed(2);
+        that.lat = res.latitude.toFixed(2);
+      },
+      fail: function(err) {},
+    });
+    console.log('sd', this.$qqmapsdk)
+
+    this.$qqmapsdk.reverseGeocoder({
+      success: function (res) {
+        console.log('res', res)
+        that.address = res.result.address
+      },
+      fail: function (res) {
+        //console.log(res);
+      },
+      complete: function (res) {
+        //console.log(res);
       }
     });
-    console.log("this.car", that.cars);
+
   },
   methods: {
-    toPayInfo() {
-      this.$router.push({
-        query: { carno: item.carno },
-        path: "/pages/payMent/index",
-      });
-    },
     markertap(e) {
       const that = this;
-    //   const placeId = e.markerId
-    //   this.$request
-    //   .post("/location/getPlace.do"	,{
-    //     placeId
-    //   })
-    //   .then(res => {
-    //    const data = res.list[0];
-    //    const markets = that.markers;
- 
-    //     that.markers = markets;
-    //   })
-    //   .catch(err => {
-    //     return wx.showToast({
-    //       title: "获取失败",
-    //       icon: "none"
-    //     });
-    //   }); 
+      console.log('e', e);
+    },
+    controltap(e){
+      console.log('e', e);
+
+    },
+    regionChangeend(e){
+      console.log(1)
+    },
+    regionChangestart(e){
+      console.log(2)
+
+    },
+    //视野发生变化
+    regionchange(e) {
+      console.log('regionchange', e)
+      // 地图发生变化的时候，获取中间点，也就是用户选择的位置toFixed
+      if (e.type == 'end' && (e.causedBy == 'scale' || e.causedBy == 'drag')) {
+        console.log('e', e)
+        var that = this;
+        this.mapCtx = wx.createMapContext("map4select");
+        this.mapCtx.getCenterLocation({
+          type: 'gcj02',
+          success: function(res) {
+            console.log(res)
+            that.latitude = res.latitude,
+            that.longitude = res.longitude,
+            this.circles = [{
+                latitude: res.latitude,
+                longitude: res.longitude,
+                color: '#FF0000DD',
+                fillColor: '#d1edff88',
+                radius: 3000,//定位点半径
+                strokeWidth: 1
+              }]
+          }
+        })
+      }
+    },
+    //定位到自己的位置事件
+    my_location: function(e) {
+      var that = this;
+      that.onLoad();
     },
   },
+  onUnload(e){
+    getApp().globalData.positionAddress = this.address;
+    console.log('e' , this.address)
+  }
 };
 </script>
 
@@ -189,6 +247,10 @@ export default {
 
 
 .iconfont_sixteen{
+  width: 32rpx;
+  height: 32rpx;
+}
+.cover-image{
   width: 32rpx;
   height: 32rpx;
 }
