@@ -6,21 +6,18 @@
       :latitude="lat"
       scale="14"
       :markers="markers"
-      :enable-scroll="true"
       :circles="circles"
       show-location
       :include-points="markers"
       style="width: 100%; height: 100vh;"
       @controltap="controltap"
-      @markertap="markertap"
+      @markertap="bindmarkertap"
       @regionChange="regionChange"
-      @end="regionChangeend" @start="regionChangestart"
+      @end="regionChangeend"
+      @begin="regionChangestart"
+      @anchorpointtap="anchorpointtap"
+      @tap="tap"
     >
-      <cover-image
-        class="cover-image"
-        src="/static/png/location.jpg"
-        @bindtap="my_location"
-      />
     </map>
   </div>
 </template>
@@ -35,12 +32,18 @@ export default {
       cars: [],
       lng: '',
       lat: '',
-      markers: [],
+      markers: [[{
+      iconPath: "/static/png/location.jpg",
+      id: 0,
+      latitude: '24',
+      longitude: '118',
+      width: 50,
+      height: 50
+      }]],
       circles:[]
     };
   },
   onShow() {
-    const { user } = getApp().globalData;
     var that = this;
     wx.getLocation({
       type: "gcj02",
@@ -53,36 +56,48 @@ export default {
       fail: function(err) {},
     });
     console.log('sd', this.$qqmapsdk)
-
-    this.$qqmapsdk.reverseGeocoder({
-      success: function (res) {
-        console.log('res', res)
-        that.address = res.result.address
-      },
-      fail: function (res) {
-        //console.log(res);
-      },
-      complete: function (res) {
-        //console.log(res);
-      }
-    });
-
+  },
+  onLoad(){
+    this.choosePosition()
   },
   methods: {
-    markertap(e) {
-      const that = this;
-      console.log('e', e);
+    choosePosition(){
+      // 打开地图选择位置
+      wx.chooseLocation({
+        success: function (res) {  
+          console.log('1', res)
+          // res.name为地址名称  
+          console.log(res.name);    
+          //选择地点之后返回到原来页面
+          wx.navigateTo({
+            url: "/pages/car_info/index?address=" + res.name + "&latitude=" + res.latitude +"&longitude=" + res.longitude
+          });
+        },
+        fail: function (err) {
+          console.log(err)
+        }
+      });
+    },
+    tap(e){
+      console.log('etap', e)
+    },
+    anchorpointtap(e){
+      console.log('wanchorpointtap', e )
     },
     controltap(e){
-      console.log('e', e);
+      console.log('econtroltap', e);
 
     },
     regionChangeend(e){
-      console.log(1)
+      console.log(1, e)
     },
+    // 视野变化开始：begin和end方法内操作data会导致地图拖动后立即复位
     regionChangestart(e){
-      console.log(2)
+      console.log(2, e)
 
+    },
+    bindmarkertap(e){
+      console.log('111')
     },
     //视野发生变化
     regionchange(e) {
@@ -116,10 +131,6 @@ export default {
       that.onLoad();
     },
   },
-  onUnload(e){
-    getApp().globalData.positionAddress = this.address;
-    console.log('e' , this.address)
-  }
 };
 </script>
 

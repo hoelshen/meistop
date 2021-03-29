@@ -145,7 +145,7 @@ export default {
     },
     addCar(){
       console.log('this', this.form)
-      const {name, floor, pno, pic, addr, lat, lng } = this.form;
+      const { name, floor, pno, pic, addr, lat, lng } = this.form;
 
       this.$request.post("/pinfo/add.html", { name, floor, pno, pic, addr, lat, lng }).then((res)=>{
         console.log('res', res)
@@ -153,36 +153,43 @@ export default {
     }
   },
   onShow() {
-    const { user } = getApp().globalData;
-    this.user = user;
-    let address = '';
+
+  },
+  onLoad(options){
     const _this = this;
-    wx.getLocation({
-      type: "gcj02",
-      altitude: true, //高精度定位
-      success: function(res) {
-        // 设置坐标
-        console.log('res', res);
-        _this.form.lng = res.longitude.toFixed(2);
-        _this.form.lat = res.latitude.toFixed(2);
-      },
-      fail: function(err) {},
-    });
-    this.$qqmapsdk.reverseGeocoder({
-      success: function (res) {
-        console.log('res', res)
-        address = res.result.address
-        _this.form.addr = app.globalData.positionAddress || address;
-      },
-      fail: function (res) {
-        //console.log(res);
-      },
-      complete: function (res) {
-        //console.log(res);
-      }
-    });
-    const app = getApp();
-    console.log('const app = getApp()', app.globalData)
+    console.log('options.query', options.query)
+    console.log('options', options)
+    console.log('options.address', options.address)
+    
+    if(options.address === undefined){
+      wx.getLocation({
+        type: "gcj02",
+        altitude: true, //高精度定位
+        success: function(res) {
+          // 设置坐标
+          console.log('res', res);
+          _this.form.lng = res.longitude.toFixed(2);
+          _this.form.lat = res.latitude.toFixed(2);
+        },
+        fail: function(err) {},
+      });
+      _this.$qqmapsdk.reverseGeocoder({
+        success: function (res) {
+          console.log('res', res)
+          _this.form.addr = res.result.address
+        },
+        fail: function (res) {
+          //console.log(res);
+        },
+        complete: function (res) {
+          //console.log(res);
+        }
+      });
+    } else {
+      this.form.addr = options.address
+      this.form.lat = options.latitude
+      this.form.lng = options.longitude;
+    }
   },
   onShareAppMessage: function (res) {
     this.addCar();
