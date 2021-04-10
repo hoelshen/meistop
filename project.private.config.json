@@ -1,60 +1,12 @@
 {
-  "description": "项目配置文件。",
-  "setting": {
-    "urlCheck": false,
-    "es6": false,
-    "enhance": false,
-    "postcss": true,
-    "preloadBackgroundData": false,
-    "minified": false,
-    "newFeature": true,
-    "coverView": true,
-    "nodeModules": false,
-    "autoAudits": false,
-    "showShadowRootInWxmlPanel": true,
-    "scopeDataCheck": false,
-    "uglifyFileName": false,
-    "checkInvalidKey": true,
-    "checkSiteMap": true,
-    "uploadWithSourceMap": true,
-    "compileHotReLoad": false,
-    "useMultiFrameRuntime": true,
-    "useApiHook": true,
-    "useApiHostProcess": true,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    },
-    "enableEngineNative": false,
-    "bundle": false,
-    "useIsolateContext": true,
-    "useCompilerModule": true,
-    "userConfirmedUseCompilerModuleSwitch": false,
-    "userConfirmedBundleSwitch": false,
-    "packNpmManually": false,
-    "packNpmRelationList": [],
-    "minifyWXSS": true
-  },
-  "miniprogramRoot": "dist-wechat/",
-  "compileType": "miniprogram",
-  "appid": "wx70677f7a3878565b",
-  "projectname": "Meistop2.0_megalo",
-  "libVersion": "2.5.2",
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
   "condition": {
-    "search": {
-      "list": []
-    },
-    "conversation": {
-      "list": []
-    },
     "plugin": {
       "list": []
     },
     "game": {
-      "currentL": -1,
+      "list": []
+    },
+    "gamePlugin": {
       "list": []
     },
     "miniprogram": {
@@ -144,9 +96,8 @@
           "scene": null
         },
         {
-          "id": -1,
-          "name": "路线规划",
-          "pathName": "pages/plan_position/index",
+          "name": "停车详情",
+          "pathName": "pages/payMent/payDetail",
           "query": "",
           "scene": null
         }

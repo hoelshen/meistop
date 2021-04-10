@@ -102,7 +102,6 @@ export default {
         this.form.pno = e.detail.value;
     },
     bindAddr(e){
-      console.log('e', e)
       this.$router.push({
         path: "/pages/car_info/map"
       })
@@ -136,11 +135,6 @@ export default {
         fail(e) {
           wx.hideLoading();
         }
-      });
-    },
-    toMap(){
-      this.$router.push({
-        path: "/pages/car_info/map"
       });
     },
     addCar(){

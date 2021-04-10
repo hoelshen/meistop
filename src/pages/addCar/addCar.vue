@@ -78,7 +78,7 @@ export default {
       if (this.plateNum && this.plateNum.length > 6) {
         this.navCar();
       } else {
-        uni.showToast({
+        wx.showToast({
           icon: "none",
           title: "请输入完整的车牌号",
           mask: true,

@@ -16,7 +16,7 @@
               <div class="flex carPhone_head center">
                 <span> {{ item.address }} </span>
                 <div class="flex center">
-                  <span>详情</span>
+                  <span onclick="toDetail">详情</span>
                   <image
                     class="iconfont_sixteen flex center"
                     src="/static/png/arrow.png"
@@ -68,14 +68,12 @@ export default {
         that.cars = res.result.items;
       }
     });
-    console.log(1, user)
-    console.log("this.car", that.cars);
   },
   methods: {
-    toPayInfo() {
+    toPayInfo(item) {
       this.$router.push({
         query: { carno: item.carno },
-        path: "/pages/payMent/index",
+        path: "/pages/payMent/payDetail"
       });
     },
   },

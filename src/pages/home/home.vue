@@ -46,7 +46,8 @@
             style="width: 100%; height: 300px;"
             @controltap="bindcontroltap"
             @markertap="markertap"
-            @regionchange="regionchange"
+            @regionchange="bindregionchange"
+            @poitap="bindpoitap"
           />
           <div
             v-if="cars.length >= 1"
@@ -556,14 +557,12 @@ export default {
       this.title_height = totalBar * 2 - toolBar;
     },
     markertap(e){
-      const that = this;
-      console.log('e',e)
-      const placeId = e.markerId
-
-
+      console.log('markertap',e)
+    },
+    bindregionchange(e){
+      console.log('bindregionchange: ', e);
     },
     createMarker: function (dataList) {
-      console.log('xxx', dataList)
       var that = this;
       var currentMarker = [];
       var markerList = dataList;
@@ -581,10 +580,10 @@ export default {
         }
       }
       currentMarker = currentMarker.concat(markerList);
-      console.log('currentMarker', currentMarker);
       that.markers =  currentMarker
-      console.log('this.', that.markers)
-
+    },
+    bindcontroltap(e){
+      console.log('bindcontroltap', e)
     },
     onGotUserInfo(e) {
       const result = this.$request.login(e.detail);
@@ -641,7 +640,6 @@ export default {
           'latitude': item.lat,
           'longitude': item.lng,
       });
-      console.log('xxx', key, referer, endPoint, navigation )
       wx.navigateTo({
           url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint + '&navigation=' + navigation
       });
@@ -662,7 +660,7 @@ export default {
       this.$router.push({ path: "/pages/bindPhone/index" });
     },
     toNavigation(){
-      this.$router.push({ path: "/pages/car_info/index" });
+      this.$router.push({ path: "/pages/car_info/add" });
     },
     keyboardChange(e) {
       this.plateNum = e;
@@ -679,6 +677,7 @@ export default {
           duration: 2000,
         });
       }
+      //this.$router.push({ path: "/pages/webview/index" });
     },
     async navCar() {
       this.$request
@@ -716,6 +715,28 @@ export default {
             this.scrolHeight = systemInfo.windowHeight - barHeight;
           }.bind(this)
         );
+    },
+    bindpoitap(e){
+    const _this = this;
+     const {longitude, latitude} = e.detail  
+      //console.log('bindpoitap', name, longitude, latitude)
+          _this.$request
+            .post("/pinfo/list.html", {
+              lat: latitude,
+              lng: longitude,
+              pageNo: "1",
+              pageSize: "10",
+            })
+            .then((res) => {
+              const arr = res.result.items;
+              _this.createMarker(arr);
+              arr.map(item =>{
+                const distance = mileToKile(item.distance);
+                item.distance = distance
+                return item.distance
+              })
+              return _this.cars = arr
+            });
     },
     joinGroup() {
       this.$request.getUser();

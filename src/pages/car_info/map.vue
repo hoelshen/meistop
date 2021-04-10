@@ -17,8 +17,7 @@
       @begin="regionChangestart"
       @anchorpointtap="anchorpointtap"
       @tap="tap"
-    >
-    </map>
+    />
   </div>
 </template>
 
@@ -70,7 +69,7 @@ export default {
           console.log(res.name);    
           //选择地点之后返回到原来页面
           wx.navigateTo({
-            url: "/pages/car_info/index?address=" + res.name + "&latitude=" + res.latitude +"&longitude=" + res.longitude
+            url: "/pages/car_info/add?address=" + res.name + "&latitude=" + res.latitude +"&longitude=" + res.longitude
           });
         },
         fail: function (err) {

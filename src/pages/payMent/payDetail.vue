@@ -1,13 +1,6 @@
 <template>
   <view class="page flex column">
     <div
-      class="tool-bar"
-      style="background-color: #01bf99"
-      :style="{
-        height: tool_height + 'px'
-      }"
-    />
-    <div
       :style="{
         height: title_height + 'px'
       }"
@@ -18,26 +11,24 @@
           height: title_height + 'px'
         }"
         style="color: white;"
-        class="title flex center "
+        class="title flex j-between "
       >
-        美停
+        <span style="margin:10rpx;">
+          {{ car.carno || "暂无" }}
+        </span>
+        <span style="margin:10rpx;">
+          查看发票
+        </span>
       </view>
     </div>
     <div class="my_info flex column">
-      <view>
-        <img
-          class="header-bg_img"
-          src="/static/png/bgThree.png"
-          alt=""
-        >
-      </view>
       <div class="info flex center column">
         <img
           class="avatarUrl"
           src="/static/png/paySuccess.png"
           mode="scaleToFill"
         >
-        <span class="paySuceess">缴费成功</span>
+        <span class="paySuceess">已支付{{ Number.parseFloat(car.money).toFixed(2) || "暂无" }}元</span>
         <!-- <div>温馨提示： 请在{{}} 前驶离停车场，超时将产生新的费用</div> -->
       </div>
       <div
@@ -51,31 +42,42 @@
           <span class="formatTimer" />
         </div>
         <div class="block_div payDiv flex  center ">
-          <span class=" payCount grow">停车费用</span>
-          <div class="right money">
-            <span class="rmb">¥</span>
-            <span>{{ Number.parseFloat(car.money).toFixed(2) || "暂无" }}</span>
-          </div>
+          <span class=" payCount grow">支付明细</span>
         </div>
         <div class="flex j-between block_div">
-          <span class="left grow">车牌号码</span>
-          <span class="right">{{ car.carno || "暂无" }}</span>
+          <span class="left grow">实际支付（微信无感支付）</span>
+          <span class="right">{{ car.money || "暂无" }}</span>
+        </div>
+        <div class="flex j-between block_div">
+          <span class="left grow">支付时间</span>
+          <span class="right">{{ car.startts || "暂无" }}</span>
         </div>
         <div class="block_div flex  center ">
-          <span class="left grow">停车地点</span>
+          <span class="left grow">交易单号</span>
+          <span class="right">{{ car.id || "暂无" }}</span>
+        </div>
+        <div class="block_div payDiv flex  center ">
+          <span class=" payCount grow">临停记录</span>
+        </div>
+        <div class="block_div flex  center ">
+          <span class=" left grow">停车场</span>
           <span class="right">{{ car.address || "暂无" }}</span>
+        </div>
+        <div class="block_div flex  center ">
+          <span class=" left grow">停车时长</span>
+          <span class="right">{{ car.timess || "暂无" }}</span>
         </div>
         <div class="block_div flex  center ">
           <span class=" left grow">入场时间</span>
           <span class="right">{{ car.startts || "暂无" }}</span>
         </div>
         <div class="block_div flex  center ">
-          <span class=" left grow">付款时间</span>
-          <span class="right">{{ car.startts || "暂无" }}</span>
+          <span class=" left grow">出场时间</span>
+          <span class="right">{{ car.endts || "暂无" }}</span>
         </div>
         <div class="block_div flex  center ">
-          <span class=" left grow">停车时长</span>
-          <span class="right">{{ formatTimer || "暂无" }}</span>
+          <span class=" left grow">合计</span>
+          <span class="right">{{ car.money || "暂无" }} 元</span>
         </div>
       </div>
       <div
@@ -84,20 +86,6 @@
       >
         暂无数据
       </div>
-    </div>
-    <div class="flex center lightButton">
-      <form
-        report-submit="true"
-        @submit="paySubmit"
-      >
-        <button
-          class="submit"
-          form-type="submit"
-          @click="onReturn"
-        >
-          回到首页
-        </button>
-      </form>
     </div>
   </view>
 </template>
@@ -205,6 +193,15 @@ export default {
       wx.reLaunch({
         url: "/pages/home/index"
       });
+    },
+    resultFormat(result) {
+        var h = Math.floor(result/3600%24);
+        var m = Math.floor(result/60%60);
+        if (h < 1) {
+            return result = m + "分钟";
+        } else {
+            return result = h + "小时" + m + "分钟";
+        }
     }
   },
   onShow() {
@@ -213,14 +210,7 @@ export default {
     } = this.$router;
     let res = wx.getSystemInfoSync();
     const carno = query.carno || "";
-    console.log("res: ", res);
-    // 导航栏总高度 & 占位块高度
-    // {
-    //       'iPhone': 64,
-    //       'iPhoneX': 88,
-    //       'Android': 68,
-    //       'samsung': 72
-    // }
+    console.log('carno', carno);
     let isiOS = res.system.indexOf("iOS") > -1;
     let totalBar;
     if (!isiOS) {
@@ -252,7 +242,9 @@ export default {
           return;
         }
         const length = res.result.items.length - 1;
+        
         this.car = res.result.items[length];
+        this.car.timess = this.resultFormat(this.car.timess)
         console.log("this.car: ", this.car);
         this.orderid = res.result.items[length].id;
       })
@@ -272,6 +264,7 @@ export default {
   margin: 0rpx 0rpx;
   border-radius: 25px;
   background-color: #ffffff;
+  top: -20rpx;
   box-shadow: 0 0 40rpx 0 rgba(0, 0, 0, 0.05);
   & .avatarUrl {
     display: block;

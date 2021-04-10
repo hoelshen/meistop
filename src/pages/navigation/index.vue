@@ -1,5 +1,12 @@
 <template>
-  <div class="appDiv flex column" />
+  <div class="appDiv flex column" >
+    <button
+      class="my_contact_item_button flex wrap center grow"
+      @click="toNavigation"
+    >
+      <span class="my_contact_item_text grow">开始导航</span>
+    </button>
+  </div>
 </template>
 <script>
 import shareMix from "@/mixins/mixin";
@@ -13,6 +20,7 @@ export default {
       longitude: "",
       latitude: "",
       polyline: '',
+      flag: true,
       code: "",
       user: {},
       cars: [],
@@ -24,42 +32,48 @@ export default {
     };
   },
   methods: {},
-  onShow() {
-    const { user } = getApp().globalData;
-    this.user = user;
-    let _this = this;
-        const {
-      currentRoute: { query }
-    } = this.$router;
-    const point = JSON.parse(query.form);
-    const lng = point.longitude || "";
-    const lat = point.latitude || "";
-    const addr = point.name || "";
-    this.form.name = addr;
-    this.form.lat = lat;
-    this.form.lng = lng;
-    console.log("res: ", lng, lat);
-
-    let key = 'I63BZ-X27CJ-E3QF4-K2G4Y-T7FGF-E3FDU';  //使用在腾讯位置服务申请的key
-    let referer = '美停AI';   //调用插件的app的名称
-    let navigation = 1;
-    let endPoint = JSON.stringify({  //终点
-        'name': addr,
-        'latitude': lat,
-        'longitude': lng,
-    });
-    console.log('xxx', key, referer, endPoint, navigation )
-    wx.navigateTo({
-        url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint + '&navigation=' + navigation
-    });
-
+  onLoad() {
+    wx.enableAlertBeforeUnload({
+      message: "回到首页",
+      success: function(){
+        console.log(1)
+       /*  wx.navigateTo({
+          url: "/pages/home/index"
+        }) */
+      },
+      fail: console.error,
+      complete: function(){
+        //跳转首页
+        console.log(2)
+      }
+    })
   },
   methods:{
-    bindLocation(e){
-      console.log('e', e.detail.value)
-    },
-    bindDestination(e){
-      console.log('e', e.detail.value)
+    toNavigation(){
+      const {
+        currentRoute: { query }
+      } = this.$router;
+      const point = JSON.parse(query.form);
+      const lng = point.longitude || "";
+      const lat = point.latitude || "";
+      const addr = point.name || "";
+      this.form.name = addr;
+      this.form.lat = lat;
+      this.form.lng = lng;
+      console.log("res: ", lng, lat);
+
+      let key = 'I63BZ-X27CJ-E3QF4-K2G4Y-T7FGF-E3FDU';  //使用在腾讯位置服务申请的key
+      let referer = '美停AI';   //调用插件的app的名称
+      let navigation = 1;
+      let endPoint = JSON.stringify({  //终点
+          'name': addr,
+          'latitude': lat,
+          'longitude': lng,
+      });
+      console.log('xxx', key, referer, endPoint, navigation )
+      wx.navigateTo({
+          url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint + '&navigation=' + navigation
+      });
     }
   }
 };
