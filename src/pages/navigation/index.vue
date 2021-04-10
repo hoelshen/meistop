@@ -1,12 +1,5 @@
 <template>
-  <div class="appDiv flex column" >
-    <button
-      class="my_contact_item_button flex wrap center grow"
-      @click="toNavigation"
-    >
-      <span class="my_contact_item_text grow">开始导航</span>
-    </button>
-  </div>
+  <div class="appDiv flex column" />
 </template>
 <script>
 import shareMix from "@/mixins/mixin";
@@ -32,21 +25,13 @@ export default {
     };
   },
   methods: {},
-  onLoad() {
-    wx.enableAlertBeforeUnload({
-      message: "回到首页",
-      success: function(){
-        console.log(1)
-       /*  wx.navigateTo({
-          url: "/pages/home/index"
-        }) */
-      },
-      fail: console.error,
-      complete: function(){
-        //跳转首页
-        console.log(2)
-      }
-    })
+   onLoad(){
+    this.toNavigation()
+  },
+  onShow(){
+    wx.reLaunch({
+      url: "/pages/home/index"
+    });
   },
   methods:{
     toNavigation(){
@@ -57,6 +42,7 @@ export default {
       const lng = point.longitude || "";
       const lat = point.latitude || "";
       const addr = point.name || "";
+      getApp().globalData['position'] = addr;
       this.form.name = addr;
       this.form.lat = lat;
       this.form.lng = lng;
