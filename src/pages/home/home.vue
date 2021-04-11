@@ -47,7 +47,11 @@
             @controltap="bindcontroltap"
             @markertap="markertap"
             @regionchange="bindregionchange"
+            @begin="begin" 
+            @end="end" 
             @poitap="bindpoitap"
+            @tap="bindtap"
+            @anchorpointtap="bindanchorpointtap"
           />
           <div
             v-if="cars.length >= 1"
@@ -427,6 +431,7 @@ import keyboard from "@/components/keyboard";
 import { mileToKile } from "@/utils/index";
 
 let plugin = requirePlugin('routePlan');
+let touchTimeStamp = 0
 export default {
   components: {
     HomeTabbar,
@@ -465,13 +470,22 @@ export default {
       statusbarHeight: "",
       tool_height: "",
       markers: [{
-      iconPath: "",
-      id: 0,
-      latitude: '24',
-      longitude: '118',
-      width: 50,
-      height: 50
-    }],
+        iconPath: "",
+        id: 0,
+        latitude: '24',
+        longitude: '118',
+        width: 50,
+        height: 50
+      }],
+      tempMarkers: [{
+        iconPath: "",
+        id: 0,
+        latitude: '24',
+        longitude: '118',
+        width: 50,
+        height: 50
+      }],
+      TempCars: []
     };
   },
   onLoad(opt) {
@@ -492,20 +506,11 @@ export default {
     });
     this.getScroll();
     this.onTabChange(this.tab);
-    wx.getSetting({
-      success: function(res) {
-        if (res.authSetting && res.authSetting["scope.userInfo"]) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success: function(res) {
-              console.log(res.userInfo);
-            },
-          });
-        } else {
-          this.$refs.mymodal.show();
-        }
-      }.bind(this),
-    });
+    let user = getApp().globalData.user;
+    console.log('user', user, JSON.stringify(user))
+    if(JSON.stringify(user) == '{}'){
+      this.$refs.mymodal.show();
+    }
   },
 
   methods: {
@@ -559,9 +564,6 @@ export default {
     markertap(e){
       console.log('markertap',e)
     },
-    bindregionchange(e){
-      console.log('bindregionchange: ', e);
-    },
     createMarker: function (dataList) {
       var that = this;
       var currentMarker = [];
@@ -580,14 +582,55 @@ export default {
         }
       }
       currentMarker = currentMarker.concat(markerList);
-      that.markers =  currentMarker
+      return currentMarker;
     },
     bindcontroltap(e){
       console.log('bindcontroltap', e)
     },
+    // 视野变化开始：begin和end方法内操作data会导致地图拖动后立即复位
+    begin ({timeStamp}) {
+      touchTimeStamp = timeStamp;
+    },
+    // 视野变化结束：begin和end方法内操作data会导致地图拖动后立即复位
+    end ({timeStamp}) {
+        // 事件触发时段大于120才会更新停车信息
+        if (timeStamp - touchTimeStamp > 120) {
+          console.log(timeStamp, touchTimeStamp, timeStamp - touchTimeStamp)
+          this.regionchange()
+        } else {
+          console.log('xxxx')
+        }
+    },
+    regionchange(){
+      const _this = this;
+      wx.getLocation({
+          type: "gcj02",
+          altitude: true, //高精度定位
+          success: function(res) {
+            // 设置坐标
+            _this.$request
+                .post("/pinfo/list.html", {
+                  lat: res.longitude.toFixed(2),
+                  lng: res.latitude.toFixed(2),
+                  pageNo: "1",
+                  pageSize: "10",
+                })
+                .then((res) => {
+                  const arr = res.result.items;
+                  _this.tempMarkers = _this.createMarker(arr);
+                  arr.map(item =>{
+                    const distance = mileToKile(item.distance);
+                    item.distance = distance
+                    return item.distance
+                  })
+                  return _this.TempCars = arr
+                });
+          },
+          fail: function(err) {},
+        });
+    },
     onGotUserInfo(e) {
       const result = this.$request.login(e.detail);
-      console.log("res", result);
     },
     async getBanners() {
       const res1 = await this.$request.post("/index.html");
@@ -613,7 +656,7 @@ export default {
             })
             .then((res) => {
               const arr = res.result.items;
-              _this.createMarker(arr);
+              _this.markers = _this.createMarker(arr);
               arr.map(item =>{
                 const distance = mileToKile(item.distance);
                 item.distance = distance
@@ -692,7 +735,6 @@ export default {
           });
         })
         .catch((err) => {
-          console.log("err: ", err);
           return;
         });
     },
@@ -716,10 +758,32 @@ export default {
           }.bind(this)
         );
     },
+    bindtap(e){
+      console.log('bindtap', e);
+      const _this = this;
+      const {longitude, latitude} = e.detail  
+            _this.$request
+              .post("/pinfo/list.html", {
+                lat: latitude,
+                lng: longitude,
+                pageNo: "1",
+                pageSize: "10",
+              })
+              .then((res) => {
+                const arr = res.result.items;
+                _this.markers = _this.createMarker(arr);
+                arr.map(item =>{
+                  const distance = mileToKile(item.distance);
+                  item.distance = distance
+                  return item.distance
+                })
+                return _this.cars = arr
+              });
+    },
     bindpoitap(e){
-    const _this = this;
+     console.log('bindpoitap'. e)
+/*      const _this = this;
      const {longitude, latitude} = e.detail  
-      //console.log('bindpoitap', name, longitude, latitude)
           _this.$request
             .post("/pinfo/list.html", {
               lat: latitude,
@@ -729,14 +793,17 @@ export default {
             })
             .then((res) => {
               const arr = res.result.items;
-              _this.createMarker(arr);
+              _this.markers = _this.createMarker(arr);
               arr.map(item =>{
                 const distance = mileToKile(item.distance);
                 item.distance = distance
                 return item.distance
               })
               return _this.cars = arr
-            });
+            }); */
+    },
+    bindanchorpointtap(e){
+      console.log('bindanchorpointtap', e)
     },
     joinGroup() {
       this.$request.getUser();

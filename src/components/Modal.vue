@@ -14,6 +14,15 @@
       </div>
       <div class="btn">
         <button
+          v-if="canIUseGetUserProfile"
+          class="lightButton rightButton"
+          lang="zh_CN"
+          @tap="onGotUserproInfo"
+        >
+          确认
+        </button>
+        <button
+          v-else
           class="lightButton rightButton"
           open-type="getUserInfo"
           lang="zh_CN"
@@ -34,13 +43,33 @@ export default {
     return {
       isShowModal: false,
       filterTitle: "",
-      value: {}
+      value: {},
+      canIUseGetUserProfile: false
     };
+  },
+  onShow() {
+    if (wx.getUserProfile) {
+      this.canIUseGetUserProfile = true
+    }
   },
   methods: {
     onGotUserInfo(e) {
       this.isShowModal = false;
       this.$request.login(e.detail);
+    },
+    onGotUserproInfo(e){
+      console.log('e',)
+      const _this = this;
+      if (!wx.getUserProfile) {
+        return
+      }
+      wx.getUserProfile({
+        desc: '获取用户信息的权限', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+          success: (res) => {
+            _this.isShowModal = false;
+            _this.$request.login(res);
+          }
+        })
     },
     show() {
       this.isShowModal = true;

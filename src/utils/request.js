@@ -92,6 +92,7 @@ async function getlatitude(){
 
 async function login(data) {
   getApp().globalData.user = data.userInfo;
+  console.log('data', data.userInfo)
   let openid = getApp().globalData.openid;
   let portrait = data.userInfo.avatarUrl
   let nickname = data.userInfo.nickName
@@ -166,7 +167,6 @@ fly.interceptors.request.use(async function (request) {
   request.headers["tokenInfo"] = tokenInfo = wx.getStorageSync('tokenInfo') //永久保存用户账号
   const whiteList = ['/user/openid.html', '/user/login.html']
   if(!whiteList.indexOf(request.url) > -1){
-    console.log('不用检验')
   } else{
     if(tokenCode){
       fly.lock();

@@ -40,7 +40,7 @@
   "compileType": "miniprogram",
   "appid": "wx70677f7a3878565b",
   "projectname": "Meistop2.0_megalo",
-  "libVersion": "2.5.2",
+  "libVersion": "2.16.0",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "condition": {
