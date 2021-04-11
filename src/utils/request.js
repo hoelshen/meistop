@@ -92,7 +92,6 @@ async function getlatitude(){
 
 async function login(data) {
   getApp().globalData.user = data.userInfo;
-  console.log('data', data.userInfo)
   let openid = getApp().globalData.openid;
   let portrait = data.userInfo.avatarUrl
   let nickname = data.userInfo.nickName

@@ -1,27 +1,27 @@
 <template>
   <view class="page flex column">
-    <div
-      :style="{
-        height: title_height + 'px'
-      }"
-      class="home_header "
-    >
+    <div class="my_info flex column">
+      <div
+        :style="{
+          height: title_height + 'px'
+        }"
+        class="home_header "
+      >
       <view
         :style="{
           height: title_height + 'px'
         }"
-        style="color: white;"
+        style="color: black;"
         class="title flex j-between "
       >
-        <span style="margin:10rpx;">
-          {{ car.carno || "暂无" }}
+        <span style="margin:20rpx;">
+          车牌号：{{ car.carno || "暂无" }}
         </span>
-        <span style="margin:10rpx;">
+        <span style="margin:20rpx;">
           查看发票
         </span>
       </view>
     </div>
-    <div class="my_info flex column">
       <div class="info flex center column">
         <img
           class="avatarUrl"
@@ -257,7 +257,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .home_header {
-  background-color: #01bf99;
+  background-color: #ffffff;
 }
 .my_info {
   min-height: 326rpx;
