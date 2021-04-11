@@ -7,21 +7,21 @@
         }"
         class="home_header "
       >
-      <view
-        :style="{
-          height: title_height + 'px'
-        }"
-        style="color: black;"
-        class="title flex j-between "
-      >
-        <span style="margin:20rpx;">
-          车牌号：{{ car.carno || "暂无" }}
-        </span>
-        <span style="margin:20rpx;">
-          查看发票
-        </span>
-      </view>
-    </div>
+        <view
+          :style="{
+            height: title_height + 'px'
+          }"
+          style="color: black;"
+          class="title flex j-between "
+        >
+          <span style="margin:20rpx;">
+            车牌号：{{ car.carno || "暂无" }}
+          </span>
+          <span style="margin:20rpx;">
+            查看发票
+          </span>
+        </view>
+      </div>
       <div class="info flex center column">
         <img
           class="avatarUrl"

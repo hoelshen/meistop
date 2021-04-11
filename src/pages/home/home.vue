@@ -104,7 +104,7 @@
     </div>
 
     <!-- 我要缴费 -->
-    <div
+  <!--   <div
       v-else-if="tab == 'mail'"
       class="pannel grow"
     >
@@ -212,7 +212,7 @@
           </div>
         </session>
       </scroll-view>
-    </div>
+    </div> -->
 
     <!-- 我的 -->
     <div
@@ -596,7 +596,7 @@ export default {
         // 事件触发时段大于120才会更新停车信息
         if (timeStamp - touchTimeStamp > 120) {
           console.log(timeStamp, touchTimeStamp, timeStamp - touchTimeStamp)
-          this.regionchange()
+          //this.regionchange()
         } else {
           console.log('xxxx')
         }

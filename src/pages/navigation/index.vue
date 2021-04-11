@@ -29,9 +29,11 @@ export default {
     this.toNavigation()
   },
   onShow(){
-    wx.reLaunch({
-      url: "/pages/home/index"
-    });
+    setTimeout(()=>{
+      wx.reLaunch({
+        url: "/pages/home/index"
+      });
+    }, 500)
   },
   methods:{
     toNavigation(){

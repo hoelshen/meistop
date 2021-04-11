@@ -25,7 +25,7 @@
       </button>
       <span class="flex center">首页</span>
     </form>
-    <form
+<!--     <form
       report-submit="true"
       @submit="mail"
     >
@@ -54,7 +54,7 @@
         </div>
       </button>
       <span class="flex center">我要缴费</span>
-    </form>
+    </form> -->
     <form
       report-submit="true"
       @submit="myInfo"
